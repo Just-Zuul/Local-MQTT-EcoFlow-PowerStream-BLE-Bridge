@@ -117,3 +117,6 @@ If there is enough community interest, I will publish:
 * Complete setup guide
 
 Please use the **Discussions** tab for questions, feedback, testing results, and community exchange.
+
+
+[PowerStream Controller Discussion](https://github.com/Just-Zuul/Local-MQTT-EcoFlow-PowerStream-BLE-Bridge/discussions/1)
