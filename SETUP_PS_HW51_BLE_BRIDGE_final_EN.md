@@ -187,9 +187,9 @@ L104: static uint8_t     AP_BSSID[6] = { 0xA1, 0xB2, 0xC3, 0xAA, 0xBB, 0xCC };
 L105: 
 L106: // SAMPLE-AP = A1:B2:C3:AA:BB:CC   -> here you can note which AP you use and which MAC it has
 ```
-L102 = use mode 0 or 1 if more than one WiFi network is possible or in use (lines 95-96 filled). Mode 2 only for a **single** network with a fixed assigned AP (Caution! new AP = re-flash the ESP!)
-L103 = the AP name shown in mode 2 (or as a reference note in mode 1 if you know which AP is the nearest)
-L104 = the MAC of the AP to bind to in mode 2 (or, in mode 0 or 1, just shown as which AP is the nearest - displayed in the diagnostic data)
+L102 = use mode 0 or 1 if more than one WiFi network is possible or in use (lines 95-96 filled). Mode 2 only for a **single** network with a fixed assigned AP (Caution! new AP = re-flash the ESP!)  
+L103 = the AP name shown in mode 2 (or as a reference note in mode 1 if you know which AP is the nearest)  
+L104 = the MAC of the AP to bind to in mode 2 (or, in mode 0 or 1, just shown as which AP is the nearest - displayed in the diagnostic data)  
 
 
 LINE 109 - 115:
