@@ -1,0 +1,20 @@
+# Arduino build output
+build/
+*.o
+*.elf
+*.bin
+*.hex
+*.map
+
+# macOS
+.DS_Store
+**/.DS_Store
+
+# Windows
+Thumbs.db
+desktop.ini
+
+# Editors
+.vscode/
+*.swp
+*~
