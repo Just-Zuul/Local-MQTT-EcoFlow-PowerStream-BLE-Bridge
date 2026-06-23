@@ -44,9 +44,9 @@ Vollständigkeit, Aktualität oder Funktionsfähigkeit übernommen.
 EcoFlow und PowerStream sind eingetragene Marken der EcoFlow Technology Inc. Dieses Projekt
 steht in keiner Verbindung zu EcoFlow und wird von EcoFlow weder unterstützt noch genehmigt.
 
-## Inhaltsverzeichnis 
+# Inhaltsverzeichnis 
 
-# PowerStream HW51 ↔ ESP32 BLE-Bridge — Einrichtungsabfolge
+## PowerStream HW51 ↔ ESP32 BLE-Bridge — Einrichtungsabfolge
 
  1. Überblick — was die Bridge macht & warum (lokal per BLE, ohne Cloud/Decoder), was sie steuert
  2. Funktionsumfang (Kurz-Feature-Liste: Telemetrie, Steuerung, Failsafe, Multi-WLAN, WebLog …)
@@ -147,14 +147,14 @@ Die Firmware benötigt zwei manuell zu installierende Bibliotheken.
 
 
 
-Wenn man alle Daten zusammen hat, Arduino soweit installiert ist, die wichtigsten Einstellungen anpassen:
+Wenn man alle Daten zusammen hat, Arduino soweit installiert ist, die wichtigsten Einstellungen anpassen:  
 
 
-<img width="613" height="812" alt="grafik" src="https://github.com/user-attachments/assets/55312555-a6ef-41ba-8555-044e76e51109" />
+<img width="613" height="812" alt="grafik" src="https://github.com/user-attachments/assets/55312555-a6ef-41ba-8555-044e76e51109" />  
 
 
 
-Anschließend das Arduinoscript: **ps-esp-ble-bridge-v_2_6_3_blanco.ino** mit einem Editor öffnen (z.B. Notepad++), um die Angaben anzupassen.
+Anschließend das Arduinoscript: **ps-esp-ble-bridge-v_2_6_3_blanco.ino** mit einem Editor öffnen (z.B. Notepad++), um die Angaben anzupassen.  
 
 ### 6. Konfiguration - Aufbau des Kopfes mit den anzupassenden Angaben:
 
@@ -179,8 +179,9 @@ const WifiCred WIFI_CREDS[] = {
 };
 
 ```
-```
+
 ZEILE 100 - 106:
+```
 Z100: // WLAN-Roaming-Schutz :
 Z101: //   0 = Auto   1 = Best-at-Boot (empfohlen)   2 = Hard-Lock (feste BSSID)
 Z102: #define WIFI_MODE  1
@@ -193,8 +194,9 @@ Z102 = den Modus 0 oder 1 verwenden, wenn mehr als ein Wifi-Netz möglich ist od
 Z103 = Der AP Name, der bei Modus 2 angezeigt wird (oder als Hilfsangabe bei 1 wenn man weiß, welcher der nächste AP ist)
 Z104 = die MAC des zu bindenden AP bei Modus 2 (oder als Anzeige, welcher AP der nächste ist, wenn 0 oder 1 verwendet wird - wird in den Diagnosedaten angezeigt)
 ```
-```
+
 ZEILE 109 - 115:
+```
 Z109: // Optionale statische IP (pro Geraet anpassen!). false = DHCP.
 Z110: static const bool USE_STATIC_IP = true;                // !!!! <----- !! BEACHTEN !! - !! WICHTIG !! ---- !!!!!
 Z111: IPAddress local_IP(192, 168, 100, 100);                // !!!!! pro Geraet aendern
@@ -211,26 +213,29 @@ Minimum Konfiguration für WLAN / NETZWERK Einstellungen: EINE SSID+PASS, WIFI M
 Hinweis: der eingebaute Webserver ist unter der IP des ESP zu erreichen. eine feste IP vereinfacht die Nutzung.  
 
  
-ZEILE 117 - 121:  
-- die vorhandenen MQTT Einstellungen vervollständigen / anpassen  
+ZEILE 117 - 121:
 ```
+- die vorhandenen MQTT Einstellungen vervollständigen / anpassen
+```
+
 ZEILE 123 - 124:
+```
 Z123: //  --- EcoFlow User ID ---
 Z124: const char* EF_USER_ID = "0000000000000000000";        // EcoFlow UserID (fuer alle Geraete gleich)
 ```
-**Die User ID kann man recht einfach mit Hilfe des Tools unter :  https://gnox.github.io/user_id   ermitteln.**
-```
+**Die User ID kann man recht einfach mit Hilfe des Tools unter :  https://gnox.github.io/user_id   ermitteln.**  
+
 ZEILE 126 - 129:
+```
 Z126: // --- NTP / Zeit ---
 Z127: static const char* NTP_SERVER_1 = "192.168.100.1";               // Router oder anderer Zeitgeber im lokalen LAN
 Z128: static const char* NTP_SERVER_2 = "pool.ntp.org";                // Fallback - öffentlicher Zeitgeber
 Z129: static const char* TZ_STRING    = "CET-1CEST,M3.5.0,M10.5.0/3";  // Zeitzone : CET/CEST inkl. Sommerzeit
 ```
-Anpassen der Zeitserver und der Zeitzone (voreingestellt Zentraleuropa)
+Anpassen der Zeitserver und der Zeitzone (voreingestellt Zentraleuropa)  
 
-
-```
 ZEILE 131 - 134:
+```
 Z131: //  --- pro Geraet individuell ---
 Z132: const char* PS_SN     = "HW51ZOH4PS000000";    // Seriennummer des Inverters
 Z133: const char* PS_MAC    = "77:66:ef:44:zz:ee";   // BLE-MAC des Inverters (kleinschreibung!!)
@@ -240,8 +245,9 @@ Die Seriennummer MUSS zwingend mit dem Inverter übereinstimmen!!
 Die BLE-MAC des PowerStream kann man einfach mit der App "nRF" ermitteln. Der Inverter zeigt sich beim Scan mit seiner Kennung "HW-1234". ZEILE 133 : **KLEINSCHREIBUNG !! beachten**  
 Die Device ID wird für die Benennung der Entität verwendet. Nur eine "1" würde zu "PowerStream-1"   
 
-```
+
 ZEILE 149 - 152:
+```
 Z150: const int      FAILSAFE_WATTS   = 50;          // sicherer Sollwert, wenn WLAN laenger weg ist (wird per BLE gesetzt)
 ```
 Hier lässt sich die Einspeiseleistung für die Noteinstellung bei WLAN-Verlust anpassen (Grundverbrauchswert oder Grundeinspeisewert).  
