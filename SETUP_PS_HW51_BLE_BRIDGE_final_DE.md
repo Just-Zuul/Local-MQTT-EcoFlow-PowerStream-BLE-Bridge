@@ -189,11 +189,11 @@ Z103: static const char* AP_NAME    = "SAMPLE-AP";
 Z104: static uint8_t     AP_BSSID[6] = { 0xA1, 0xB2, 0xC3, 0xAA, 0xBB, 0xCC };
 Z105: 
 Z106: // SAMPLE-AP = A1:B2:C3:AA:BB:CC   -> hier kann man sich vermerken welchen AP man verwendet und welche MAC er hat
-
-Z102 = den Modus 0 oder 1 verwenden, wenn mehr als ein Wifi-Netz möglich ist oder verwendet wird (Zeile 95 - 96 befüllt) Modus 2 nur bei **einem** Netzwerk und fest zugewiesenem AP (Achtung ! neuer AP = ESP neu flashen !)
-Z103 = Der AP Name, der bei Modus 2 angezeigt wird (oder als Hilfsangabe bei 1 wenn man weiß, welcher der nächste AP ist)
-Z104 = die MAC des zu bindenden AP bei Modus 2 (oder als Anzeige, welcher AP der nächste ist, wenn 0 oder 1 verwendet wird - wird in den Diagnosedaten angezeigt)
 ```
+Z102 = den Modus 0 oder 1 verwenden, wenn mehr als ein Wifi-Netz möglich ist oder verwendet wird (Zeile 95 - 96 befüllt). Modus 2 nur bei **einem** Netzwerk und fest zugewiesenem AP (Achtung ! neuer AP = ESP neu flashen !)  
+Z103 = Der AP Name, der bei Modus 2 angezeigt wird (oder als Hilfsangabe bei 1 wenn man weiß, welcher der nächste AP ist)  
+Z104 = die MAC des zu bindenden AP bei Modus 2 (oder als Anzeige, welcher AP der nächste ist, wenn 0 oder 1 verwendet wird - wird in den Diagnosedaten angezeigt)  
+
 
 ZEILE 109 - 115:
 ```
