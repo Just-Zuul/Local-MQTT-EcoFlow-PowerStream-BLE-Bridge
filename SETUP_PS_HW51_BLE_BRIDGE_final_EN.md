@@ -1,7 +1,5 @@
 ## SETUP PS - ESP - BRIDGE (English)
-## =======================
-
-/* ==== Notice & Disclaimer ===============================================================================
+> 🇩🇪 [Deutsche Version](SETUP_PS_HW51_BLE_BRIDGE_final_DE.md)  
 
 ## ⚠️ Notice & Disclaimer
 
@@ -40,11 +38,12 @@ No guarantee is given for correctness, completeness, timeliness or functionality
 ### Trademarks & third parties
 
 EcoFlow and PowerStream are registered trademarks of EcoFlow Technology Inc. This project is in no way
-affiliated with EcoFlow and is neither endorsed nor approved by EcoFlow.
- ========================================================================= */
-/* ==== Table of contents  ================================================================================
+affiliated with EcoFlow and is neither endorsed nor approved by EcoFlow.  
 
-# PowerStream HW51 ↔ ESP32 BLE Bridge — Setup Guide
+
+# Table of contents  
+
+## PowerStream HW51 ↔ ESP32 BLE Bridge — Setup Guide
 
  1. Overview — what the bridge does & why (local via BLE, no cloud/decoder), what it controls
  2. Feature set (short list: telemetry, control, failsafe, multi-WiFi, WebLog …)
@@ -68,8 +67,7 @@ affiliated with EcoFlow and is neither endorsed nor approved by EcoFlow.
 14. Credits & sources: rabits/ha-ef-ble · GnoX User ID Finder
 15. Notes
 
- ========================================================================= */
-/* ==== Section  1 ========================================================================================
+
 ### 1. Overview — what the bridge does & why
 
 The bridge is firmware for a small ESP32 microcontroller.
@@ -85,8 +83,7 @@ My system, my device, my data, my control + more reliable control and all data i
 The PowerStream's cloud/MQTT connection keeps dropping — control commands then arrive late or not at all. 
 BLE is a **direct, local radio link**: independent of the internet, EcoFlow cloud and their servers.
 The result is fast, reliable control that keeps working even without internet (and without EcoFlow).
- ========================================================================= */
-/* ==== Section  2 ========================================================================================
+
 ### 2. Feature set (short overview)
 
 - **Full telemetry:** power, battery flow, temperatures, status values … as HA sensors.
@@ -96,8 +93,7 @@ The result is fast, reliable control that keeps working even without internet (a
 - **WiFi failover + multi-WiFi:** several networks as a priority list; automatic AP switch on outage.
 - **Built-in WebLog:** a small status web page right on the ESP (live status BLE/WiFi/MQTT + log).
 - **Auto-integration into Home Assistant** via MQTT discovery — no manual entity setup needed.
- ========================================================================= */
-/* ==== Section  3 ========================================================================================
+
 ### 3. Prerequisites, hardware and software used
 - PC (Windows/macOS/Linux)
 - Arduino IDE — https://www.arduino.cc/en/software/
@@ -105,8 +101,7 @@ The result is fast, reliable control that keeps working even without internet (a
 - A suitable USB cable (here USB-A to USB-C)
 - USB driver: For boards with a **CP2102**, install the **CP210x VCP driver from Silicon Labs** if needed — otherwise no COM port appears on the PC.
 - This repo
- ========================================================================= */
-/* ==== Section  4 ========================================================================================
+
 ### 4. Arduino libraries
 The firmware needs two libraries that must be installed manually.
 
@@ -123,8 +118,7 @@ The firmware needs two libraries that must be installed manually.
 - `esp_system.h` (`esp_reset_reason()`)
 
 > **Troubleshooting micro-ecc:** An async web server is **not** needed (the code uses the synchronous core `WebServer.h`). If `micro-ecc` (e.g. from another project) is installed and there are linker conflicts with NimBLE, **remove or rename** the standalone `micro-ecc` — NimBLE 2.x brings its own crypto.
- ========================================================================= */
-/* ==== Section  5 ========================================================================================
+
 ### 5. Data required for setup (minimum):
 
 - WiFi SSID
@@ -152,12 +146,13 @@ The firmware needs two libraries that must be installed manually.
 Once you have all the data together and Arduino is installed, adjust the most important settings:
 
 
---------------- IMAGE-ESP-SETTINGS IN ARDUINO ----------------
+
+<img width="613" height="812" alt="grafik" src="https://github.com/user-attachments/assets/55312555-a6ef-41ba-8555-044e76e51109" />
+
 
 
 Then open the Arduino sketch: **ps-esp-ble-bridge-v_2_6_3_blanco_en.ino** in an editor (e.g. Notepad++) to adjust the entries.
- ========================================================================= */
-/* ==== Section  6 ========================================================================================
+
 ### 6. Configuration - structure of the header with the entries to adjust:
 
 
@@ -165,24 +160,25 @@ LINE 87 = // =================== CONFIG  (fill in from here) ===================
 
 LINE 94 = primary WiFi network and password
 LINE 95 to 96 = enter WiFi SSID and passwords if fallback is wanted... otherwise comment out the line with // (so the following line numbers stay correct)
-
+```
 const WifiCred WIFI_CREDS[] = {
   { "SSID 1", "PASS 1" },                    // Prio 1 (preferred, e.g. dedicated router or AP)
   { "SSID 2", "PASS 2" },                    // Prio 2 (fallback, e.g. mesh) - if only 1 network -> comment out the line
   { "SSID 3", "PASS 3" },                    // Prio 3 (possible further fallback) - if only 1 network -> comment out the line  
 };
-
+```
 WITH a single network in use this becomes:
-
+```
 const WifiCred WIFI_CREDS[] = {
   { "GIVEN-SSID 1", "GIVEN-PASS 1" },        // Prio 1 (preferred, e.g. dedicated router or AP)
 //  { "SSID 2", "PASS 2" },                  // Prio 2 (fallback, e.g. mesh) - if only 1 network -> comment out the line
 //  { "SSID 3", "PASS 3" },                  // Prio 3 (possible further fallback) - if only 1 network -> comment out the line  
 };
-
+```
 
 
 LINE 100 - 106:
+```
 L100: // WiFi roaming protection :
 L101: //   0 = Auto   1 = Best-at-Boot (recommended)   2 = Hard-Lock (fixed BSSID)
 L102: #define WIFI_MODE  1
@@ -194,9 +190,10 @@ L106: // SAMPLE-AP = A1:B2:C3:AA:BB:CC   -> here you can note which AP you use a
 L102 = use mode 0 or 1 if more than one WiFi network is possible or in use (lines 95-96 filled). Mode 2 only for a **single** network with a fixed assigned AP (Caution! new AP = re-flash the ESP!)
 L103 = the AP name shown in mode 2 (or as a reference note in mode 1 if you know which AP is the nearest)
 L104 = the MAC of the AP to bind to in mode 2 (or, in mode 0 or 1, just shown as which AP is the nearest - displayed in the diagnostic data)
-
+```
 
 LINE 109 - 115:
+```
 L109: // Optional static IP (adjust per device!). false = DHCP.
 L110: static const bool USE_STATIC_IP = true;                // !!!! <----- !! NOTE !! - !! IMPORTANT !! ---- !!!!!
 L111: IPAddress local_IP(192, 168, 100, 100);                // !!!!! change per device
@@ -204,52 +201,54 @@ L112: IPAddress gateway (192, 168, 100,   1);
 L113: IPAddress subnet  (255, 255, 255,   0);
 L114: IPAddress dns1    (192, 168, 100,   1);
 L115: IPAddress dns2    (192, 168, 100,   1);
+```
+LINE 110 = use a fixed IP (true) or DHCP (false). A fixed IP is the default and recommended, as long as **all networks used are in the same IP range** (multiple APs/SSIDs in the same network are no problem this way).  
+Only if fallback networks are in **different IP ranges/subnets** must DHCP (USE_STATIC_IP = false) be used.  
 
-LINE 110 = use a fixed IP (true) or DHCP (false). A fixed IP is the default and recommended, as long as **all networks used are in the same IP range** (multiple APs/SSIDs in the same network are no problem this way).
-Only if fallback networks are in **different IP ranges/subnets** must DHCP (USE_STATIC_IP = false) be used.
+Minimum configuration for WiFi / NETWORK settings: ONE SSID+PASS, WIFI MODE 1 (default), lines 111-115 for a fixed IP  
 
-Minimum configuration for WiFi / NETWORK settings: ONE SSID+PASS, WIFI MODE 1 (default), lines 111-115 for a fixed IP
-
-Note: the built-in web server is reachable at the ESP's IP. A fixed IP makes access easier.
+Note: the built-in web server is reachable at the ESP's IP. A fixed IP makes access easier.  
 
 
 LINE 117 - 121:
-- complete / adjust the existing MQTT settings
+- complete / adjust the existing MQTT settings  
 
 LINE 123 - 124:
+```
 L123: //  --- EcoFlow User ID ---
 L124: const char* EF_USER_ID = "0000000000000000000";        // EcoFlow User ID (same for all devices)
-
-**The User ID can be obtained quite easily with the tool at:  https://gnox.github.io/user_id**
+```
+**The User ID can be obtained quite easily with the tool at:  https://gnox.github.io/user_id**  
 
 LINE 126 - 129:
+```
 L126: // --- NTP / time ---
 L127: static const char* NTP_SERVER_1 = "192.168.100.1";               // router or other time source on the local LAN
 L128: static const char* NTP_SERVER_2 = "pool.ntp.org";                // fallback - public time source
 L129: static const char* TZ_STRING    = "CET-1CEST,M3.5.0,M10.5.0/3";  // timezone: CET/CEST incl. daylight saving
-
-Adjust the time servers and the timezone (preset to Central Europe)
-
+```
+Adjust the time servers and the timezone (preset to Central Europe)  
 
 
 LINE 131 - 134:
+```
 L131: //  --- individual per device ---
 L132: const char* PS_SN     = "HW51ZOH4PS000000";    // serial number of the inverter
 L133: const char* PS_MAC    = "77:66:ef:44:zz:ee";   // BLE MAC of the inverter (lowercase!!)
 L134: const char* DEVICE_ID = "WR0-PS0000";          // short ID -> topics + MQTT client ID - composed as: PowerStream-WR0-PS0000
-
-The serial number MUST match the inverter exactly!!
-The PowerStream's BLE MAC can easily be found with the "nRF" app. During the scan the inverter shows up with its identifier "HW-1234". LINE 133: **note the LOWERCASE!!**
-The device ID is used to name the entities. Just a "1" would become "PowerStream-1" 
+```
+The serial number MUST match the inverter exactly!!  
+The PowerStream's BLE MAC can easily be found with the "nRF" app. During the scan the inverter shows up with its identifier "HW-1234". LINE 133: **note the LOWERCASE!!**  
+The device ID is used to name the entities. Just a "1" would become "PowerStream-1"   
 
 
 LINE 149 - 152:
+```
 L150: const int      FAILSAFE_WATTS   = 50;          // safe setpoint when WiFi is gone for longer (set via BLE)
+```
+Here you can adjust the feed-in power for the emergency setting on WiFi loss (base consumption or base feed-in value).  
 
-Here you can adjust the feed-in power for the emergency setting on WiFi loss (base consumption or base feed-in value).
 
- ========================================================================= */
-/* ==== Section  7 ========================================================================================
  ### 7. Flashing (select board, port, upload speed, CP210x driver)
 
 After fully adjusting the template with all the required data, copy the code into the Arduino interface, connect the board and flash.
@@ -267,8 +266,7 @@ Step by step:
 5. **Done:** on success Arduino reports "Done uploading" or "Hard resetting via RTS pin". The ESP restarts and begins connecting (WiFi → MQTT → BLE).
 
 **Check:** in the serial monitor (115200 baud) or later in the WebLog (http://<ESP-IP>/) you can watch the startup: WiFi connection, MQTT, then the BLE connect to the PowerStream.
- ========================================================================= */
-/* ==== Section  8 ========================================================================================
+
 ### 8. Home Assistant — what appears automatically (MQTT discovery)
 
 Prerequisite: in HA the **MQTT integration** is set up (same broker as in the sketch) and
@@ -285,8 +283,7 @@ setup** is needed.
 - **Sensors disabled by default:** inverter temperature (always reads 0), Installation Country/Town —
   they exist but are hidden; enable them in HA if needed.
 - **`bp_type`:** inverter status — value **`2`** = (Delta) battery connected/detected.
- ========================================================================= */
-/* ==== Section  9 ========================================================================================
+
 ### 9. Operation & features
 
 - **Setpoint (W):** the feed-in power. Set via the Number entity (manually or by automation, Section 11). Written only on a real change (Section 10).
@@ -294,8 +291,7 @@ setup** is needed.
 - **Supply mode:** supply priority (e.g. power supply vs. battery).
 - **Restart button:** restarts the ESP — handy e.g. to re-trigger the best-at-boot AP selection (Section 10).
 - **WebLog:** open `http://<ESP-IP>/` in the browser. Shows live status (BLE/WiFi/MQTT as cards) and the latest log lines — reachable even **without** Home Assistant. A fixed IP makes access easier.
- ========================================================================= */
-/* ==== Section 10 ========================================================================================
+
 ### 10. Behaviour explained (the "why")
 
 - **Write-on-change:** the setpoint is only written when it changes (or actual ≠ target). At idle this means
@@ -312,8 +308,7 @@ setup** is needed.
 - **Multi-WiFi priority:** multiple networks possible (Section 6). The ESP prefers the **topmost reachable**
   network in the list (e.g. a dedicated box) and otherwise falls back to the next one (e.g. mesh) — each with
   its matching password.
- ========================================================================= */
-/* ==== Section 11 ========================================================================================
+
 ### 11. HA automation (example)
 
 The bridge only provides the **control variable** (the setpoint). The actual control logic — e.g. a
@@ -326,8 +321,7 @@ separate file:
 
 It contains the ready-made YAML plus an explanation of the logic — entity names and the sign of the grid
 sensor must be adapted to your own system.
- ========================================================================= */
-/* ==== Section 12 ========================================================================================
+
 ### 12. Troubleshooting (known errors & simple fixes)
 
 - **No COM port in Arduino:** CP210x VCP driver missing (Section 3) — or a charge-only cable without data lines. Try a different cable/port.
@@ -338,8 +332,7 @@ sensor must be adapted to your own system.
 - **BLE won't connect:** PS MAC correct and written in **lowercase**, SN exactly as on the device, PowerStream powered on and within range. Identifier in the nRF scan: `HW-…`.
 - **WiFi gone / no failover:** for fallback across **separate subnets** be sure to use **DHCP** (Section 6). Note: the MQTT broker must be reachable/routable from the fallback network, otherwise the ESP is on WiFi but HA is not reachable.
 - **In general:** the WebLog is the first place to look — it shows live where it's stuck (WiFi, MQTT or BLE). And: most "errors" resolve by re-reading the relevant section here. ;-)
- ========================================================================= */
-/* ==== Section 13 ========================================================================================
+
 ### 13. Background / architecture (optional)
 
 - **Local instead of cloud:** the PowerStream's cloud/MQTT connection drops periodically → control over
@@ -350,8 +343,7 @@ sensor must be adapted to your own system.
   (it is fed cloud-/smart-plug-side). Control therefore goes through `permanent_watts`.
 - **Two-channel idea:** a stable base value via BLE — the cloud-mediated channel is deliberately left
   unused, so the setup stays fully **cloud-free**.
- ========================================================================= */
-/* ==== Section 14 ========================================================================================
+
 ### 14. Credits & sources
 
 - **rabits/ha-ef-ble** (Roman Bashlovkin) — reverse engineering of the BLE protocol: frame format,
@@ -363,8 +355,7 @@ sensor must be adapted to your own system.
 
 EcoFlow and PowerStream are trademarks of EcoFlow Technology Inc.; this project is independent and in no
 way affiliated with EcoFlow.
- ========================================================================= */
-/* ==== Section 15 ========================================================================================
+
 ### 15. Notes
 
 In principle the ESP can run its BLE connection at the same time as a local solution via WiFi (TCP - MQTT) or even alongside the standard cloud connection.
@@ -381,4 +372,3 @@ Note: I could only test it with a PowerStream - DeltaPro (Gen1) bundle. Anyone w
 
 TIP: powering the ESP from the battery saves the power supply and supplies the ESP with power exactly when the inverter is working, too.
 
-  ========================================================================= */
