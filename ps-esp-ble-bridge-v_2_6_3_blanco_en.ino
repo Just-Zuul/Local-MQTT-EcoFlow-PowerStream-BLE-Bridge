@@ -1,10 +1,10 @@
 /* =========================================================================
    PowerStream HW51-0000 - WiFi/MQTT <-> BLE Bridge V2.6.3 - WR-0 - 09.06.26
    -------------------------------------------------------------------------
-   Blanco Vorlage - Beispiel: 
-   Ersetzt den TCP-MQTT-Decoder durch eine lokale BLE-Bruecke:
-   liest die volle PS-Telemetrie und steuert Sollwert/Helligkeit/Supply-Mode
-   per BLE - unabhaengig von der WLAN/Cloud-Verbindung des PowerStream.
+   Blank template – (EN) Example: Configuration starts at line 87.
+   Replaces the TCP-MQTT decoder with a local BLE bridge:
+   Reads the complete PowerStream telemetry and controls setpoint, brightness, and supply mode 
+   via BLE—independently of the PowerStream's Wi-Fi or cloud connection.
 
    Changelog:
    V0.0.1 - V2.3.9  Entwicklung (RE:APP, Decode, ...), Pruefungen
@@ -21,11 +21,11 @@
    V2.5.4 Brightness gerundet statt abgeschnitten (50%->50%); "AP Name"-
           Diagnose ergaenzt; einmalige Doppel-Topic-Bereinigung entfernt
           (Altlasten sind weg, lief nur noch als No-Op).
-   V2.5.5 HA-Button "ESP Neustart" (Software-Reboot via ESP.restart()).
+   V2.5.5 HA-Button "ESP restart" (Software-Reboot via ESP.restart()).
    V2.5.6 BLE Link bekommt avty_t -> bei ESP-Stromverlust "nicht verfuegbar"
           (wie alle anderen Entities) statt stale "Verbunden". Bei reinem
           BLE-Ausfall (ESP laeuft) zeigt er weiterhin korrekt "Getrennt".
-   V2.5.7 bat_input_watts (Feld 29, /10, W) als "Batterie Leistung" ergaenzt -
+   V2.5.7 bat_input_watts (Feld 29, /10, W) als "Battery power" ergaenzt -
           vorzeichenbehaftet (Fluss zur/von Batterie). Der int32-Cast im Walker
           liefert das Vorzeichen bereits korrekt.
    V2.5.8 BLE Link zeigt jetzt "Getrennt" (Zustand) statt "nicht verfuegbar":
@@ -268,34 +268,34 @@ struct Sensor {
 };
 static const Sensor SENSORS[] = {
   // --- Inverter (input/100, op/10 !) ---
-  { "inv_volt_in",  "Inverter Eingangsspannung",  35, 100, "V",  "voltage"     },
-  { "inv_volt_op",  "Inverter Betriebsspannung",  36, 10,  "V",  "voltage"     },
-  { "inv_cur_out",  "Inverter Ausgangsstrom",     37, 1000,"A",  "current"     },
-  { "inv",          "Inverter Ausgang",           38, 10,  "W",  "power"       },  // V2.4-Key
-  { "inv_temp",     "Inverter Temperatur",        39, 10,  "°C", "temperature" },
-  { "inv_freq",     "Inverter Frequenz",          40, 10,  "Hz", "frequency"   },
-  { "inv_dc_cur",   "Inverter DC-Strom",          41, 1000,"A",  "current"     },
+  { "inv_volt_in",  "Inverter input voltage",  35, 100, "V",  "voltage"     },
+  { "inv_volt_op",  "Inverter operating voltage",  36, 10,  "V",  "voltage"     },
+  { "inv_cur_out",  "Inverter output current",     37, 1000,"A",  "current"     },
+  { "inv",          "Inverter output",           38, 10,  "W",  "power"       },  // V2.4-Key
+  { "inv_temp",     "Inverter temperature",        39, 10,  "°C", "temperature" },
+  { "inv_freq",     "Inverter frequency",          40, 10,  "Hz", "frequency"   },
+  { "inv_dc_cur",   "Inverter DC current",          41, 1000,"A",  "current"     },
   // --- PV1 (input/10, op/100) ---
-  { "pv1_volt_in",  "PV1 Eingangsspannung",       16, 10,  "V",  "voltage"     },
-  { "pv1_volt_op",  "PV1 Betriebsspannung",       17, 100, "V",  "voltage"     },
-  { "pv1_cur",      "PV1 Strom",                  18, 10,  "A",  "current"     },
-  { "pv1_watts",    "PV1 Leistung",               19, 10,  "W",  "power"       },
-  { "pv1_temp",     "PV1 Temperatur",             20, 10,  "°C", "temperature" },
+  { "pv1_volt_in",  "PV1 input voltage",       16, 10,  "V",  "voltage"     },
+  { "pv1_volt_op",  "PV1 operating voltage",       17, 100, "V",  "voltage"     },
+  { "pv1_cur",      "PV1 current",                  18, 10,  "A",  "current"     },
+  { "pv1_watts",    "PV1 power",               19, 10,  "W",  "power"       },
+  { "pv1_temp",     "PV1 temperature",             20, 10,  "°C", "temperature" },
   // --- PV2 (input/10, op/100) ---
-  { "pv2_volt_in",  "PV2 Eingangsspannung",       21, 10,  "V",  "voltage"     },
-  { "pv2_volt_op",  "PV2 Betriebsspannung",       22, 100, "V",  "voltage"     },
-  { "pv2_cur",      "PV2 Strom",                  23, 10,  "A",  "current"     },
-  { "pv2_watts",    "PV2 Leistung",               24, 10,  "W",  "power"       },
-  { "pv2_temp",     "PV2 Temperatur",             25, 10,  "°C", "temperature" },
+  { "pv2_volt_in",  "PV2 input voltage",       21, 10,  "V",  "voltage"     },
+  { "pv2_volt_op",  "PV2 operating voltage",       22, 100, "V",  "voltage"     },
+  { "pv2_cur",      "PV2 current",                  23, 10,  "A",  "current"     },
+  { "pv2_watts",    "PV2 power",               24, 10,  "W",  "power"       },
+  { "pv2_temp",     "PV2 temperature",             25, 10,  "°C", "temperature" },
   // --- LLC (input/10, op/100) ---
-  { "llc_volt_in",  "LLC Eingangsspannung",       32, 10,  "V",  "voltage"     },
-  { "llc_volt_op",  "LLC Betriebsspannung",       33, 100, "V",  "voltage"     },
-  { "llc_temp",     "LLC Temperatur",             34, 10,  "°C", "temperature" },
+  { "llc_volt_in",  "LLC input voltage",       32, 10,  "V",  "voltage"     },
+  { "llc_volt_op",  "LLC operating voltage",       33, 100, "V",  "voltage"     },
+  { "llc_temp",     "LLC temperature",             34, 10,  "°C", "temperature" },
   // --- Leistung / sonstiges ---
   { "perm",         "Permanent Watts",            48, 10,  "W",  "power"       },  // V2.4-Key
-  { "rated_power",  "Nennleistung",               58, 10,  "W",  "power"       },
-  { "bat_input_watts","Batterie Leistung",        29, 10,  "W",  "power"       },  // Feld 29, vorzeichenbehaftet: +/- = Fluss zur/von Batterie (wie Decoder)
-  { "hb_freq",      "Heartbeat Frequenz",         57, 1,   "s",  "duration"    },
+  { "rated_power",  "Rated power",               58, 10,  "W",  "power"       },
+  { "bat_input_watts","Battery power",        29, 10,  "W",  "power"       },  // Feld 29, vorzeichenbehaftet: +/- = Fluss zur/von Batterie (wie Decoder)
+  { "hb_freq",      "Heartbeat frequency",         57, 1,   "s",  "duration"    },
   // --- Status / Roh-Codes (alle sichtbar) ---
   { "inv_onoff",    "Inverter On/Off",            53, 1,   "",   ""            },
   { "inv_status",   "Inverter Status",            15, 1,   "",   ""            },
@@ -386,9 +386,9 @@ size_t fSetSupply(uint8_t* o,int val){        // Supply-Mode: cmd_id 0x82 (BLE!)
 }
 String toHex(const uint8_t* d,size_t n){String s;const char* H="0123456789abcdef";for(size_t i=0;i<n;i++){s+=H[d[i]>>4];s+=H[d[i]&0xF];}return s;}
 
-// ----------------- Krypto-Selbsttest -----------------
+// ----------------- Crypto self-test -----------------
 bool selfTest(){
-  Serial.println(F("--- Krypto-Selbsttest ---"));
+  Serial.println(F("--- Crypto self-test ---"));
   bool ok=true;
   if(crc8c((const uint8_t*)"123456789",9)!=0xF4){Serial.println("CRC8 FAIL");ok=false;}
   if(crc16a((const uint8_t*)"123456789",9)!=0xBB3D){Serial.println("CRC16 FAIL");ok=false;}
@@ -400,7 +400,7 @@ bool selfTest(){
   uint8_t pt[16];memset(pt,'A',16);uint8_t ct[16];aesCbc(true,pt,ct,16);
   if(toHex(ct,16)!="f27b86b1dc9a9538743be06751cc3bc2"){Serial.println("AES FAIL");ok=false;}
   memcpy(SESSION_KEY,savedK,16);memcpy(IV_BASE,savedIV,16);
-  Serial.println(ok?F("--- Selbsttest BESTANDEN ---"):F("--- Selbsttest FEHLGESCHLAGEN ---"));
+  Serial.println(ok?F("--- Self-test PASSED ---"):F("--- Self-test FAILED ---"));
   return ok;
 }
 
@@ -475,7 +475,7 @@ bool sendFrame(const uint8_t* f,size_t n){
 }
 void bleSetWatts(int w){
   uint8_t f[64]; size_t n=fSetLoad(f,w);
-  if(sendFrame(f,n)) wsLog("[BLE] set_load_power(%dW) gesendet",w);
+  if(sendFrame(f,n)) wsLog("[BLE] set_load_power(%dW) sent",w);
 }
 // Kaufmaennische Rundung auf 5 W (wie die HA-Automatik) - fuer exakte Soll/Ist-Vergleiche.
 int roundTo5(int w){ if(w<0) w=0; return ((w + 2) / 5) * 5; }
@@ -489,7 +489,7 @@ void regulate(){
   bool mismatch = (diff >= CONTROL_TOL_W);                        // Ist weicht ab?
   if(!changed && !mismatch) return;                              // alles gut -> kein Write
   if(!changed && (millis()-g_lastWriteMs < WRITE_GRACE_MS)) return; // Re-Assert nur gedrosselt
-  wsLog("[Ctrl] Soll=%dW Ist=%dW %s -> schreibe", soll, g_permWatts, changed?"(neu)":"(Mismatch)");
+  wsLog("[Ctrl] target=%dW actual=%dW %s -> writing", soll, g_permWatts, changed?"(new)":"(mismatch)");
   bleSetWatts(soll);
   g_lastWrittenWatts = soll;
   g_lastWriteMs      = millis();
@@ -497,14 +497,14 @@ void regulate(){
 void bleSetBright(int pct){
   int bits=(int)((pct/100.0f)*1023.0f + 0.5f); if(bits<0)bits=0; if(bits>1023)bits=1023;
   uint8_t f[64]; size_t n=fSetBright(f,bits);
-  if(sendFrame(f,n)) wsLog("[BLE] set_brightness(%d%% -> %d bits) gesendet",pct,bits);
+  if(sendFrame(f,n)) wsLog("[BLE] set_brightness(%d%% -> %d bits) sent",pct,bits);
 }
 void bleSetSupply(int val){
   uint8_t f[64]; size_t n=fSetSupply(f,val);
-  if(sendFrame(f,n)) wsLog("[BLE] set_supply_priority(%d) gesendet",val);
+  if(sendFrame(f,n)) wsLog("[BLE] set_supply_priority(%d) sent",val);
 }
 bool bleConnectAndAuth(){
-  wsLog("[BLE] verbinde zu %s ...", PS_MAC);
+  wsLog("[BLE] connecting to %s ...", PS_MAC);
   if(!g_client) { g_client=NimBLEDevice::createClient(); g_client->setClientCallbacks(new ClientCB(),false); }
   if(!g_client->connect(NimBLEAddress(PS_MAC,BLE_ADDR_PUBLIC))){ wsLog("[BLE] connect FAIL"); return false; }
   NimBLERemoteService* svc=g_client->getService(SVC_UUID);
@@ -518,7 +518,7 @@ bool bleConnectAndAuth(){
   n=fAuthStatus(f); g_write->writeValue(f,n,false); delay(400);
   n=fAutoAuth(f);   g_write->writeValue(f,n,false);
   uint32_t t0=millis(); while(!g_authOk&&!g_authFailed&&millis()-t0<10000) delay(20);
-  if(!g_authOk){ wsLog("[BLE] Auth nicht bestaetigt"); g_client->disconnect(); return false; }
+  if(!g_authOk){ wsLog("[BLE] auth not confirmed"); g_client->disconnect(); return false; }
   g_bleReconnects++;
   if(g_mqtt.connected()) publishStatus();   // link sofort online -> PS-Sensoren ohne 15s-Lag verfuegbar
   // Sollwert NICHT blind schreiben - regulate() schreibt nur bei Ist!=Soll (write-on-change)
@@ -535,10 +535,10 @@ void formatBssid(const uint8_t* b, char* out, size_t n){
 // das ueberhaupt erreichbar ist (Prioritaet = Reihenfolge in WIFI_CREDS) + dessen
 // staerkste BSSID. -1 = keines da. ("Box bevorzugen": Box-SSID erreichbar -> Box, sonst Mesh.)
 int pickBestCred(uint8_t* outB, int* outRssi){
-  wsLog("[WiFi] Scan ueber %d konfigurierte Netz(e)...", NUM_WIFI_CREDS);
+  wsLog("[WiFi] scanning %d configured network(s)...", NUM_WIFI_CREDS);
   WiFi.mode(WIFI_STA); WiFi.disconnect(); delay(100);
   int n=WiFi.scanNetworks(false,false);
-  if(n<=0){ wsLog("[WiFi] keine Netze"); return -1; }
+  if(n<=0){ wsLog("[WiFi] no networks"); return -1; }
   int found=-1;
   for(int c=0; c<NUM_WIFI_CREDS && found<0; c++){
     int best=-999,idx=-1;
@@ -546,10 +546,10 @@ int pickBestCred(uint8_t* outB, int* outRssi){
     if(idx>=0){
       memcpy(outB,WiFi.BSSID(idx),6); *outRssi=best; found=c;
       char m[18]; formatBssid(outB,m,sizeof(m));
-      wsLog("[WiFi] '%s' (Prio %d) bester AP %s @ %d dBm", WIFI_CREDS[c].ssid, c+1, m, best);
+      wsLog("[WiFi] '%s' (prio %d) best AP %s @ %d dBm", WIFI_CREDS[c].ssid, c+1, m, best);
     }
   }
-  if(found<0) wsLog("[WiFi] keine der konfigurierten SSIDs gefunden");
+  if(found<0) wsLog("[WiFi] none of the configured SSIDs found");
   WiFi.scanDelete(); return found;
 }
 void wifiModeInit(){
@@ -557,21 +557,21 @@ void wifiModeInit(){
   if(WIFI_MODE==1){
     uint8_t b[6]; int r; int c=pickBestCred(b,&r);
     if(c>=0){ g_credIdx=c; memcpy(g_lockedBssid,b,6); g_bssidLockActive=true; }
-    else wsLog("[WiFi] Mode1 Scan fehlgeschlagen -> Auto (Prio 1)");
+    else wsLog("[WiFi] mode1 scan failed -> Auto (prio 1)");
   } else if(WIFI_MODE==2){
     g_credIdx=0; memcpy(g_lockedBssid,AP_BSSID,6); g_bssidLockActive=true;
     char m[18]; formatBssid(AP_BSSID,m,sizeof(m));
-    wsLog("[WiFi] Mode2 Hard-Lock auf %s (%s, Prio-1-Zugangsdaten)", m, AP_NAME);
+    wsLog("[WiFi] mode2 hard-lock on %s (%s, prio-1 credentials)", m, AP_NAME);
   } else {
     uint8_t b[6]; int r; int c=pickBestCred(b,&r);   // Auto: Netz waehlen (Box-Prio), aber kein BSSID-Lock
     if(c>=0) g_credIdx=c;
-    wsLog("[WiFi] Mode0 Auto (Netz: %s)", WIFI_CREDS[g_credIdx].ssid);
+    wsLog("[WiFi] mode0 Auto (network: %s)", WIFI_CREDS[g_credIdx].ssid);
   }
 }
 void wifiEnsure(){
   if(WiFi.status()==WL_CONNECTED){
     g_wlanDownSince=0;
-    if(g_failsafeActive){ g_failsafeActive=false; wsLog("[Failsafe] WLAN zurueck -> HA uebernimmt wieder"); }
+    if(g_failsafeActive){ g_failsafeActive=false; wsLog("[Failsafe] WiFi back -> HA takes over again"); }
     if(g_wifiConnecting){
       g_wifiConnecting=false;
       char m[18]; uint8_t* cb=WiFi.BSSID(); if(cb)formatBssid(cb,m,sizeof(m)); else strcpy(m,"?");
@@ -581,7 +581,7 @@ void wifiEnsure(){
     if(!g_ntpStarted){
       configTzTime(TZ_STRING, NTP_SERVER_1, NTP_SERVER_2);
       g_ntpStarted=true;
-      wsLog("[NTP] Sync angefordert (%s, TZ %s)", NTP_SERVER_1, TZ_STRING);
+      wsLog("[NTP] sync requested (%s, TZ %s)", NTP_SERVER_1, TZ_STRING);
     }
     return;
   }
@@ -591,12 +591,12 @@ void wifiEnsure(){
   // Failsafe: WLAN durchgehend >= FAILSAFE_WLAN_MS weg -> Sollwert auf FAILSAFE_WATTS (latched, greift sobald BLE da)
   if(!g_failsafeActive && down>=FAILSAFE_WLAN_MS){
     g_failsafeActive=true; g_targetWatts=FAILSAFE_WATTS;
-    wsLog("[Failsafe] WLAN >%us weg -> Sollwert %dW", (unsigned)(FAILSAFE_WLAN_MS/1000), FAILSAFE_WATTS);
+    wsLog("[Failsafe] WiFi gone >%us -> setpoint %dW", (unsigned)(FAILSAFE_WLAN_MS/1000), FAILSAFE_WATTS);
     regulate();   // sofort anwenden, falls BLE da
   }
   // Selbstheilung: WLAN >= WIFI_RELOCK_MS weg -> Netz/AP neu bewerten (Rescan, Box-Prio). Nicht im Hard-Lock.
   if(WIFI_MODE!=2 && down>=WIFI_RELOCK_MS){
-    wsLog("[WiFi] WLAN >%us weg -> Netz/AP neu bewerten (Rescan)", (unsigned)(WIFI_RELOCK_MS/1000));
+    wsLog("[WiFi] WiFi gone >%us -> re-evaluate network/AP (rescan)", (unsigned)(WIFI_RELOCK_MS/1000));
     if(g_wifiConnecting){ WiFi.disconnect(); g_wifiConnecting=false; }
     wifiModeInit();              // neuer Scan -> neues Netz/Lock (Box-Prio, sonst Mesh)
     g_wlanDownSince=millis();    // Timer zuruecksetzen (kein Dauer-Rescan)
@@ -661,7 +661,7 @@ void publishStatus(){
   g_mqtt.publish((d+"bssid_cfg").c_str(), bssidCfgStr().c_str(),             true);
   g_mqtt.publish((d+"wmode").c_str(),     wifiModeStr(),                     true);
   g_mqtt.publish((d+"apname").c_str(),    apNameStr(),                       true);
-  g_mqtt.publish((d+"block").c_str(),     g_bssidLockActive?"AN":"AUS",      true);
+  g_mqtt.publish((d+"block").c_str(),     g_bssidLockActive?"ON":"OFF",      true);
   g_mqtt.publish((d+"bmac_esp").c_str(),  bleMacEsp().c_str(),               true);
   g_mqtt.publish((d+"bmac_inv").c_str(),  PS_MAC,                            true);
   g_mqtt.publish((d+"reset").c_str(),     resetReasonStr(),                  true);
@@ -680,7 +680,7 @@ void publishTelemetry(){
     long raw = g_fieldSeen[s.field] ? g_field[s.field] : 0;   // proto3: fehlendes Feld = 0
     String t = base + s.key;
     if(strcmp(s.key,"inv_onoff")==0){                          // 1/0 -> Text (Wunsch)
-      g_mqtt.publish(t.c_str(), raw?"ein":"aus", true);
+      g_mqtt.publish(t.c_str(), raw?"on":"off", true);
       continue;
     }
     char val[24];
@@ -730,22 +730,22 @@ void publishSensorDiscovery(int i){
 struct Diag { const char* id; const char* name; const char* unit; const char* devClass; };
 static const Diag DIAGS[] = {
   { "brssi",     "BLE RSSI",                 "dBm", "signal_strength" },
-  { "heap",      "Freier Heap",              "B",   ""                },
+  { "heap",      "Free heap",              "B",   ""                },
   { "breconn",   "BLE Reconnects",           "",    ""                },
   { "mreconn",   "MQTT Reconnects",          "",    ""                },
   { "uptime",    "Uptime",                   "s",   "duration"        },
-  { "bdisc",     "BLE Disconnect-Grund",     "",    ""                },
-  { "ip",        "WLAN IP-Adresse",          "",    ""                },
-  { "ssid",      "WLAN SSID",                "",    ""                },
-  { "wmac",      "WLAN MAC (ESP)",           "",    ""                },
-  { "bssid",     "AP BSSID (aktuell)",       "",    ""                },
-  { "bssid_cfg", "AP BSSID (konfiguriert)",  "",    ""                },
-  { "wmode",     "WLAN Modus",               "",    ""                },
+  { "bdisc",     "BLE disconnect reason",     "",    ""                },
+  { "ip",        "WiFi IP address",          "",    ""                },
+  { "ssid",      "WiFi SSID",                "",    ""                },
+  { "wmac",      "WiFi MAC (ESP)",           "",    ""                },
+  { "bssid",     "AP BSSID (current)",       "",    ""                },
+  { "bssid_cfg", "AP BSSID (configured)",  "",    ""                },
+  { "wmode",     "WiFi mode",               "",    ""                },
   { "apname",    "AP Name",                  "",    ""                },
   { "block",     "BSSID Lock",               "",    ""                },
   { "bmac_esp",  "BLE MAC (ESP)",            "",    ""                },
   { "bmac_inv",  "BLE MAC (Inverter)",       "",    ""                },
-  { "reset",     "Neustart-Grund",           "",    ""                },
+  { "reset",     "Restart reason",           "",    ""                },
   { "fw",        "Firmware",                 "",    ""                },
 };
 static const int NUM_DIAG = sizeof(DIAGS)/sizeof(DIAGS[0]);
@@ -774,14 +774,14 @@ void publishFixedDiscovery(){
   char t[200]; String p;
 
   snprintf(t,sizeof(t),"homeassistant/number/ps_%s/set/config",DEVICE_ID);
-  p  = "{\"name\":\"Einspeisung Sollwert\",\"uniq_id\":\"ps_"; p+=DEVICE_ID; p+="_set\",";
+  p  = "{\"name\":\"Feed-in setpoint\",\"uniq_id\":\"ps_"; p+=DEVICE_ID; p+="_set\",";
   p += "\"cmd_t\":\""+TOPIC_SET+"\",\"stat_t\":\""+TOPIC_SETSTATE+"\",\"avty_t\":\""+TOPIC_AVAIL+"\",";
   p += "\"min\":"+String(MIN_WATTS)+",\"max\":"+String(MAX_WATTS)+",\"step\":5,\"mode\":\"box\",";
   p += "\"unit_of_meas\":\"W\",\"icon\":\"mdi:transmission-tower\","+dev+"}";
   g_mqtt.publish(t,p.c_str(),true);
 
   snprintf(t,sizeof(t),"homeassistant/number/ps_%s/bright/config",DEVICE_ID);
-  p  = "{\"name\":\"Inverter Helligkeit\",\"uniq_id\":\"ps_"; p+=DEVICE_ID; p+="_bright\",";
+  p  = "{\"name\":\"Inverter brightness\",\"uniq_id\":\"ps_"; p+=DEVICE_ID; p+="_bright\",";
   p += "\"cmd_t\":\""+TOPIC_BRIGHT+"\",\"stat_t\":\""+TOPIC_BRIGHTSTATE+"\",\"avty_t\":\""+TOPIC_AVAIL+"\",";
   p += "\"min\":0,\"max\":100,\"step\":1,\"mode\":\"slider\",";
   p += "\"unit_of_meas\":\"%\",\"icon\":\"mdi:brightness-6\","+dev+"}";
@@ -795,7 +795,7 @@ void publishFixedDiscovery(){
   g_mqtt.publish(t,p.c_str(),true);
 
   snprintf(t,sizeof(t),"homeassistant/button/ps_%s/restart/config",DEVICE_ID);
-  p  = "{\"name\":\"ESP Neustart\",\"uniq_id\":\"ps_"; p+=DEVICE_ID; p+="_restart\",";
+  p  = "{\"name\":\"ESP restart\",\"uniq_id\":\"ps_"; p+=DEVICE_ID; p+="_restart\",";
   p += "\"cmd_t\":\""+TOPIC_RESTART+"\",\"avty_t\":\""+TOPIC_AVAIL+"\",";
   p += "\"dev_cla\":\"restart\",\"entity_category\":\"config\","+dev+"}";
   g_mqtt.publish(t,p.c_str(),true);
@@ -807,7 +807,7 @@ void publishFixedDiscovery(){
   g_mqtt.publish(t,p.c_str(),true);
 
   snprintf(t,sizeof(t),"homeassistant/sensor/ps_%s/rssi/config",DEVICE_ID);
-  p  = "{\"name\":\"WLAN RSSI\",\"uniq_id\":\"ps_"; p+=DEVICE_ID; p+="_rssi\",";
+  p  = "{\"name\":\"WiFi RSSI\",\"uniq_id\":\"ps_"; p+=DEVICE_ID; p+="_rssi\",";
   p += "\"stat_t\":\""+TOPIC_RSSI+"\",\"avty_t\":\""+TOPIC_AVAIL+"\",\"expire_after\":" + String(DIAG_EXPIRE_S) + ",\"unit_of_meas\":\"dBm\",";
   p += "\"dev_cla\":\"signal_strength\",\"stat_cla\":\"measurement\",\"entity_category\":\"diagnostic\","+dev+"}";
   g_mqtt.publish(t,p.c_str(),true);
@@ -821,7 +821,7 @@ void stepDiscovery(){
     int didx = idx - NUM_SENSORS;
     if(didx < NUM_DIAG){ publishDiagDiscovery(didx); g_discStep++; continue; }
     g_discoverySent = true; g_discStep = -1;
-    wsLog("[MQTT] Discovery komplett (%d Sensoren + %d Diagnose + Controls)", NUM_SENSORS, NUM_DIAG);
+    wsLog("[MQTT] discovery complete (%d sensors + %d diagnostics + controls)", NUM_SENSORS, NUM_DIAG);
   }
 }
 
@@ -834,7 +834,7 @@ void mqttCallback(char* topic,byte* payload,unsigned int len){
     char v[16]; size_t n=len<15?len:15; memcpy(v,payload,n); v[n]=0;
     int w=atoi(v); if(w<MIN_WATTS)w=MIN_WATTS; if(w>MAX_WATTS)w=MAX_WATTS;
     w = roundTo5(w);                                  // wie die Automatik: kaufmaennisch auf 5 W
-    wsLog("[MQTT] Sollwert empfangen: %dW", w);
+    wsLog("[MQTT] setpoint received: %dW", w);
     g_targetWatts=w; publishSetState();
     regulate();                                       // schreibt nur, wenn Ist!=Soll
     return;
@@ -842,7 +842,7 @@ void mqttCallback(char* topic,byte* payload,unsigned int len){
   if(strcmp(topic,TOPIC_BRIGHT.c_str())==0){
     char v[16]; size_t n=len<15?len:15; memcpy(v,payload,n); v[n]=0;
     int pct=atoi(v); if(pct<0)pct=0; if(pct>100)pct=100;
-    wsLog("[MQTT] Helligkeit empfangen: %d%%", pct);
+    wsLog("[MQTT] brightness received: %d%%", pct);
     g_targetBright=pct;
     g_mqtt.publish(TOPIC_BRIGHTSTATE.c_str(), v, true);
     if(g_authOk) bleSetBright(pct);
@@ -851,14 +851,14 @@ void mqttCallback(char* topic,byte* payload,unsigned int len){
   if(strcmp(topic,TOPIC_SUPPLY.c_str())==0){
     char v[40]; size_t n=len<39?len:39; memcpy(v,payload,n); v[n]=0;
     int val = (strcmp(v,"Prioritize power storage")==0) ? 1 : 0;   // sonst supply(0)
-    wsLog("[MQTT] Supply-Mode empfangen: %s -> %d", v, val);
+    wsLog("[MQTT] supply mode received: %s -> %d", v, val);
     g_targetSupply=val;
     g_mqtt.publish(TOPIC_SUPPLYSTATE.c_str(), v, true);            // Echo
     if(g_authOk) bleSetSupply(val);
     return;
   }
   if(strcmp(topic,TOPIC_RESTART.c_str())==0){
-    wsLog("[CMD] ESP-Neustart angefordert -> reboot");
+    wsLog("[CMD] ESP restart requested -> reboot");
     g_mqtt.publish(TOPIC_LINK.c_str(),"offline",true);            // BLE Link -> Getrennt (Will feuert bei sauberem Disconnect nicht)
     g_mqtt.publish(TOPIC_AVAIL.c_str(),"offline",true);           // Diag/Controls -> nicht verfuegbar
     delay(300);                                                   // MQTT flushen lassen
@@ -911,7 +911,7 @@ String statCard(const char* label, const String& value, const char* cls=""){
 }
 void handleRoot(){
   String h; h.reserve(8192);
-  h += F("<!DOCTYPE html><html lang='de'><head><meta charset='utf-8'>");
+  h += F("<!DOCTYPE html><html lang='en'><head><meta charset='utf-8'>");
   h += "<title>PowerStream "; h += DEVICE_ID; h += "</title>";
   h += F("<meta http-equiv='refresh' content='5'>"
          "<meta name='viewport' content='width=device-width,initial-scale=1'>"
@@ -930,21 +930,21 @@ void handleRoot(){
 
   h += "<h2>PowerStream "; h += DEVICE_ID; h += " &mdash; ESP32-BLE-Bridge V"; h += FW_VERSION; h += "</h2>";
   h += "<div class='sub'>SN "; h += PS_SN; h += " &middot; BLE "; h += PS_MAC;
-  h += " &middot; "; h += String(NUM_SENSORS); h += " Sensoren &middot; Zeit "; h += nowClock(); h += "</div>";
+  h += " &middot; "; h += String(NUM_SENSORS); h += " sensors &middot; time "; h += nowClock(); h += "</div>";
 
   h += "<div class='grid'>";
-  h += statCard("Soll", String(g_targetWatts)+" W");
-  h += statCard("Permanent (Ist)", g_permWatts>=0 ? (String(g_permWatts)+" W") : String("&ndash;"));
-  h += statCard("Inverter-Ausgang", g_invOutput>=0 ? (String(g_invOutput)+" W") : String("&ndash;"));
-  h += statCard("Helligkeit", g_curBrightPct>=0 ? (String(g_curBrightPct)+" %") : String("&ndash;"));
+  h += statCard("Target", String(g_targetWatts)+" W");
+  h += statCard("Permanent (actual)", g_permWatts>=0 ? (String(g_permWatts)+" W") : String("&ndash;"));
+  h += statCard("Inverter output", g_invOutput>=0 ? (String(g_invOutput)+" W") : String("&ndash;"));
+  h += statCard("Brightness", g_curBrightPct>=0 ? (String(g_curBrightPct)+" %") : String("&ndash;"));
   const char* bleTxt; const char* bleCls;
-  if (g_bleConnected && g_authOk)      { bleTxt = "verbunden &amp; auth"; bleCls = "ok"; }
-  else if (g_bleConnected)             { bleTxt = "verbunden, no-auth";    bleCls = "warn"; }
-  else                                 { bleTxt = "getrennt";              bleCls = "err"; }
+  if (g_bleConnected && g_authOk)      { bleTxt = "connected &amp; auth"; bleCls = "ok"; }
+  else if (g_bleConnected)             { bleTxt = "connected, no-auth";    bleCls = "warn"; }
+  else                                 { bleTxt = "disconnected";              bleCls = "err"; }
   h += statCard("BLE", bleTxt, bleCls);
-  if (WiFi.status() == WL_CONNECTED) h += statCard("WLAN", String(WiFi.RSSI())+" dBm", "ok");
-  else                               h += statCard("WLAN", "getrennt", "err");
-  h += statCard("MQTT", g_mqtt.connected() ? "verbunden" : "getrennt", g_mqtt.connected() ? "ok" : "err");
+  if (WiFi.status() == WL_CONNECTED) h += statCard("WiFi", String(WiFi.RSSI())+" dBm", "ok");
+  else                               h += statCard("WiFi", "disconnected", "err");
+  h += statCard("MQTT", g_mqtt.connected() ? "connected" : "disconnected", g_mqtt.connected() ? "ok" : "err");
   h += statCard("Uptime", fmtUptime());
   h += statCard("Heap", String(ESP.getFreeHeap())+" B");
   h += "</div>";
@@ -965,7 +965,7 @@ void setup(){
   Serial.begin(115200); delay(300);
   Serial.println(F("\n======================================"));
   Serial.println(F("  PowerStream Bridge V2.6.3"));
-  Serial.printf ("  Geraet: %s  (SN %s)\n",DEVICE_ID,PS_SN);
+  Serial.printf ("  Device: %s  (SN %s)\n",DEVICE_ID,PS_SN);
   Serial.println(F("======================================"));
 
   md5raw((const uint8_t*)PS_SN,strlen(PS_SN),SESSION_KEY);
@@ -973,7 +973,7 @@ void setup(){
   for(size_t i=0;i<L;i++)rev[i]=PS_SN[L-1-i]; rev[L]=0;
   md5raw((const uint8_t*)rev,L,IV_BASE);
 
-  if(!selfTest()){Serial.println(F("STOP: Krypto-Selbsttest fehlgeschlagen."));return;}
+  if(!selfTest()){Serial.println(F("STOP: crypto self-test failed."));return;}
   wsLog("Boot: PowerStream Bridge V%s (Device %s)", FW_VERSION, DEVICE_ID);
 
   String base   = String("ps/")+DEVICE_ID;
@@ -988,7 +988,7 @@ void setup(){
   TOPIC_LINK        = base+"/link";
   TOPIC_AVAIL       = base+"/avail";
   MQTT_CLIENTID     = String("ps-bridge-")+DEVICE_ID;
-  wsLog("Basis-Topic: %s", base.c_str());
+  wsLog("Base topic: %s", base.c_str());
 
   wifiModeInit();
   wifiEnsure();
@@ -999,7 +999,7 @@ void setup(){
   g_web.onNotFound(handleNotFound);
   g_web.begin();
   if (WiFi.status() == WL_CONNECTED) wsLog("[Web] http://%s/", WiFi.localIP().toString().c_str());
-  else                               wsLog("[Web] gestartet, wartet auf WLAN");
+  else                               wsLog("[Web] started, waiting for WiFi");
 
   NimBLEDevice::init(""); NimBLEDevice::setPower(ESP_PWR_LVL_P9);
 
