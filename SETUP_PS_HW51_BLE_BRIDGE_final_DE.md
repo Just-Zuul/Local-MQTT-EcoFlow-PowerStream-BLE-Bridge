@@ -337,6 +337,8 @@ müssen an das eigene System angepasst werden.
 - **WLAN weg / kein Failover:** bei Fallback über **getrennte Subnetze** unbedingt **DHCP** (Punkt 6). Achtung: der MQTT-Broker muss vom Fallback-Netz erreichbar/routbar sein, sonst ist der ESP zwar im WLAN, aber HA nicht erreichbar.
 - **Allgemein:** Der WebLog ist die erste Anlaufstelle — er zeigt live, an welcher Stelle (WLAN, MQTT oder BLE) es klemmt. Und: die meisten „Fehler" lösen sich durch erneutes Lesen des passenden Punktes hier. ;-)
 
+Fehlercode-Liste für die BLE Verbindung unter: [BLE-Fehlercodes_DE.md](BLE-Fehlercodes_DE.md)
+
 ### 13. Hintergrund / Architektur (optional)
 
 - **Lokal statt Cloud:** Die Cloud-/MQTT-Verbindung des PowerStream bricht periodisch ab → Steuerung über
@@ -375,4 +377,3 @@ Alle, die dieses hier gesammelte Wissen nutzen möchten, viel Spaß und viel Erf
 Hinweis: Ich konnte es nur mit einem PowerStream - DeltaPro (Gen1) Bundle testen. Wer eine andere Delta-Batterie hat, muss es ausprobieren, ob die PS-BAT-Werte korrekt erscheinen.
 
 TIPP: den ESP an der Batterie zu betreiben spart das Netzteil und versorgt den ESP dann mit Strom, wenn auch der Inverter arbeitet.
-
