@@ -333,6 +333,8 @@ sensor must be adapted to your own system.
 - **WiFi gone / no failover:** for fallback across **separate subnets** be sure to use **DHCP** (Section 6). Note: the MQTT broker must be reachable/routable from the fallback network, otherwise the ESP is on WiFi but HA is not reachable.
 - **In general:** the WebLog is the first place to look — it shows live where it's stuck (WiFi, MQTT or BLE). And: most "errors" resolve by re-reading the relevant section here. ;-)
 
+List of error codes for the BLE connection at: [BLE-Error-Codes_EN.md](BLE-Error-Codes_EN.md)
+
 ### 13. Background / architecture (optional)
 
 - **Local instead of cloud:** the PowerStream's cloud/MQTT connection drops periodically → control over
@@ -371,4 +373,3 @@ To everyone who wants to use the knowledge gathered here: have fun and good luck
 Note: I could only test it with a PowerStream - DeltaPro (Gen1) bundle. Anyone with a different Delta battery must try out whether the PS battery values appear correctly.
 
 TIP: powering the ESP from the battery saves the power supply and supplies the ESP with power exactly when the inverter is working, too.
-
