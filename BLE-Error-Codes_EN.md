@@ -55,6 +55,8 @@ Usually seen together with `[BLE] auth not confirmed`. In that case the PS did *
 2. **Check the EcoFlow User ID.**
 3. On `no service` / `no chars`: is the target device really a **PowerStream**? Other devices expose different services.
 
+> Is there an `AUTH FAIL 0xNN` right before it? Then the S/N is already correct, and that code tells the real reason — see the section **Authentication: `AUTH FAIL 0xNN`** below.
+
 ---
 
 ### 0x208 — Radio link lost
@@ -99,6 +101,34 @@ A catch-all code with no precise meaning. Usually comes from the PS (e.g. during
 
 ---
 
+## Authentication: `AUTH FAIL 0xNN` — the PowerStream's reply
+
+The log often shows **two different number spaces** right below each other — don't mix them up:
+
+- `disconnected reason=0x2..` → **BLE layer** (who disconnected) — see above.
+- `AUTH FAIL 0x..` → **EcoFlow auth code**: what the PowerStream says about the login.
+
+**Key point:** the moment an `AUTH FAIL 0xNN` appears at all, your **S/N is already correct** — the PS's reply could be decrypted (key = `MD5(S/N)`). The code `NN` then tells you what *actually* fails:
+
+| Code | Meaning | What it means concretely |
+|------|---------|--------------------------|
+| `0x01` | NeedRefreshToken | token needs refreshing |
+| `0x02` | DeviceInternalError | internal device error |
+| `0x03` | DeviceAlreadyBound | already bound (elsewhere) |
+| **`0x04`** | NeedBindInstallFirst | **device is not bound** → in the EcoFlow app, **remove and re-add it** |
+| `0x05` | AppSendDataError | malformed request data |
+| **`0x06`** | WrongKey | **wrong key → check the User ID (and S/N)** |
+| `0x07` | MaximumDevicesError | maximum number of bindings reached |
+
+`0x00` is **not** an error — that is the success case and shows up as `>>> AUTH OK <<<`. Any other value not listed here = unknown code.
+
+**And the crucial difference with `auth not confirmed`:**
+
+- **WITHOUT** a preceding `AUTH FAIL 0xNN` (just the 10-second timeout) → the PS **did not answer in a usable way** → **check S/N, User ID and MAC.**
+- **WITH** an `AUTH FAIL 0xNN` before it → the S/N is fine, the PS **actively rejected** the login → **read the code above** (usually `0x04` = bind, `0x06` = key).
+
+---
+
 ## If your code is not listed here
 
 You can **decode it yourself** — it is simple arithmetic:
@@ -116,9 +146,11 @@ Example: `0x213` = base `0x200` (HCI) + `0x13` = "Remote User Terminated Connect
 
 | Symptom | Most likely cause |
 |---------|-------------------|
-| `0x213` **or** `0x216` **together with** `auth not confirmed` | **S/N or EcoFlow User ID wrong** |
+| `auth not confirmed` **without** a preceding `AUTH FAIL` (timeout only) | **check S/N / User ID / MAC** |
+| `AUTH FAIL 0x04` | device **not bound** → remove + re-add in the app (S/N & ID are fine) |
+| `AUTH FAIL 0x06` | **User ID wrong** (S/N is fine) |
 | Always `no service` / `no chars` | Target device is **not a PowerStream** |
 | `0x213` immediately on connecting | The **EcoFlow app** is holding the BLE connection |
 | `0x208` occasionally, connection returns | **Radio range/link** — usually uncritical |
 
-> Rule of thumb: if BLE gets as far as `connected` and then fails at authentication, it is **almost always the S/N or the User ID** — not the board and not the MAC. The fact that it connects at all proves the MAC is correct and a real device is answering.
+> Rule of thumb: if BLE gets as far as `connected` and then fails at authentication, check **S/N and User ID** first — not the board or the MAC (the fact that it connects at all proves the MAC is correct and a real device is answering). **If an `AUTH FAIL 0xNN` appears in the log, that code tells the real reason** — e.g. `0x04` = not bound (S/N & ID are already fine in that case).
