@@ -10,6 +10,7 @@ gegen einen kleinen, gewollten Restwert** geht (Nulleinspeisung mit Sicherheitsr
   mit der Konvention **`+` = Bezug aus dem Netz, `−` = Einspeisung ins Netz**.
 - Die **Sollwert-Number** der Bridge, z. B. `number.powerstream_wr1_sollwert` (Name = deine `DEVICE_ID`).
 - Leistungsgrenzen wie im Sketch: hier **0 … 800 W** (= `MIN_WATTS … MAX_WATTS`, ggf. anpassen).
+- vor einem Wechsel zur ESP Steuerung muss in der EcoFlow-App die **"Einspeisekontrolle" aktiviert (ON)** sein — sonst speist, insbesondere bei beabsichtigter Nulleinspeisung, der PowerStream bei vollem Speicher trotzdem alles ins Netz und die Regelung bleibt wirkungslos!
 
 ## Die Logik in Kurzform
 - **Grund-Netzbezug (Reserve):** Eine echte 0 ist instabil und kippt schnell in ungewollte Einspeisung.
