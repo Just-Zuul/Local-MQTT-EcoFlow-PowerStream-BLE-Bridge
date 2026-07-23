@@ -9,6 +9,7 @@ adapt the **entity names (EDIT ENTITY)** to your system and check the **sign of 
   with the convention **`+` = draw from the grid, `−` = feed into the grid**.
 - The bridge's **setpoint Number**, e.g. `number.powerstream_wr1_setpoint` (name = your `DEVICE_ID`).
 - Power limits as in the sketch: here **0 … 800 W** (= `MIN_WATTS … MAX_WATTS`, adjust if needed).
+- before switching over to ESP control, **"feed-in control" must be enabled (ON)** in the EcoFlow app — otherwise, especially if zero feed-in is intended, the PowerStream will still export everything once the battery is full and the automation has no effect!
 
 ## The logic in brief
 - **Base grid draw (reserve):** a true 0 is unstable and quickly tips into unwanted feed-in.
