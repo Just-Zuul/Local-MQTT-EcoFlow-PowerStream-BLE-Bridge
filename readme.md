@@ -1,4 +1,6 @@
-> 🇩🇪 [Deutsche Version](readme_de.md)
+> 🇩🇪 [Deutsche Version](readme_de.md)   
+
+> 🇫🇷 [Version française](readme_fr.md)
 
 # Local MQTT – EcoFlow PowerStream BLE Bridge
 ### ESP32 · BLE · MQTT · Home Assistant · V2.6.3
@@ -102,10 +104,16 @@ The result is exceptionally stable, fast, and reliable.
 |------|-------------|
 | [`SETUP_PS_HW51_BLE_BRIDGE_final_DE.md`](SETUP_PS_HW51_BLE_BRIDGE_final_DE.md) | 🇩🇪 Complete setup guide (German) |
 | [`SETUP_PS_HW51_BLE_BRIDGE_final_EN.md`](SETUP_PS_HW51_BLE_BRIDGE_final_EN.md) | 🇬🇧 Complete setup guide (English) |
+| [`SETUP_PS_HW51_BLE_BRIDGE_final_FR.md`](SETUP_PS_HW51_BLE_BRIDGE_final_FR.md) | 🇫🇷 Complete setup guide (French) |
 | [`ps-esp-ble-bridge-v_2_6_3_blanco_de.ino`](ps-esp-ble-bridge-v_2_6_3_blanco_de.ino) | 🇩🇪 ESP32 firmware — comments in German |
 | [`ps-esp-ble-bridge-v_2_6_3_blanco_en.ino`](ps-esp-ble-bridge-v_2_6_3_blanco_en.ino) | 🇬🇧 ESP32 firmware — comments in English |
+| [`ps-esp-ble-bridge-v_2_6_3_blanco_fr.ino`](ps-esp-ble-bridge-v_2_6_3_blanco_fr.ino) | 🇫🇷 ESP32 firmware — comments in French |
 | [`HA-Automatisierung-Nulleinspeisung-Beispiel.md`](HA-Automatisierung-Nulleinspeisung-Beispiel.md) | 🇩🇪 Home Assistant zero feed-in automation example |
 | [`HA-Automation-ZeroFeedin-Example.md`](HA-Automation-ZeroFeedin-Example.md) | 🇬🇧 Home Assistant zero feed-in automation example |
+| [`BLE-Fehlercodes_DE.md`](BLE-Fehlercodes_DE.md) | 🇩🇪 BLE error-code reference |
+| [`BLE-Error-Codes_EN.md`](BLE-Error-Codes_EN.md) | 🇬🇧 BLE error-code reference |
+| [`BLE-Codes_d_erreur_FR.md`](BLE-Codes_d_erreur_FR.md) | 🇫🇷 BLE error-code reference |
+| [`Z-01 - Add-Battery-SoC-Sensor.md`](Z-01%20-%20Add-Battery-SoC-Sensor.md) | 🇬🇧 How-to: add a battery SoC sensor |
 
 **Start here:** Read the setup guide in your language completely before you begin.
 
