@@ -103,12 +103,18 @@ Das Ergebnis ist außergewöhnlich stabil, schnell und zuverlässig.
 |-------|--------------|
 | [`SETUP_PS_HW51_BLE_BRIDGE_final_DE.md`](SETUP_PS_HW51_BLE_BRIDGE_final_DE.md) | 🇩🇪 Vollständige Setup-Anleitung (Deutsch) |
 | [`SETUP_PS_HW51_BLE_BRIDGE_final_EN.md`](SETUP_PS_HW51_BLE_BRIDGE_final_EN.md) | 🇬🇧 Vollständige Setup-Anleitung (Englisch) |
+| [`SETUP_PS_HW51_BLE_BRIDGE_final_FR.md`](SETUP_PS_HW51_BLE_BRIDGE_final_FR.md) | 🇫🇷 Vollständige Setup-Anleitung (Französisch) |
 | [`ps-esp-ble-bridge-v_2_6_3_blanco_de.ino`](ps-esp-ble-bridge-v_2_6_3_blanco_de.ino) | 🇩🇪 ESP32-Firmware – Kommentare auf Deutsch |
-| [`ps-esp-ble-bridge-v_2_6_3_blanco_en.ino`](ps-esp-ble-bridge-v_2_6_3_blanco_en.ino) | 🇬🇧 ESP32-Firmware – Kommentare auf Englisch |
+| [`ps-esp-ble-bridge-v_2_6_3_blanco_en.ino`](ps-esp-ble-bridge-v_2_6_3_blanco_en.ino) | 🇬🇧 ESP32-Firmware – Kommentare auf English |
+| [`ps-esp-ble-bridge-v_2_6_3_blanco_fr.ino`](ps-esp-ble-bridge-v_2_6_3_blanco_fr.ino) | 🇫🇷 ESP32-Firmware – Kommentare auf Französisch |
 | [`HA-Automatisierung-Nulleinspeisung-Beispiel.md`](HA-Automatisierung-Nulleinspeisung-Beispiel.md) | 🇩🇪 Home Assistant Nulleinspeisung Automatisierungs-Beispiel |
-| [`HA-Automation-ZeroFeedin-Example.md`](HA-Automation-ZeroFeedin-Example.md) | 🇬🇧 Home Assistant Zero Feed-in Automation Example |
+| [`HA-Automation-ZeroFeedin-Example.md`](HA-Automation-ZeroFeedin-Example.md) | 🇬🇧 Home Assistant zero feed-in automation example |
+| [`BLE-Fehlercodes_DE.md`](BLE-Fehlercodes_DE.md) | 🇩🇪 BLE Fehlerbeschreibungen in Deutsch |
+| [`BLE-Error-Codes_EN.md`](BLE-Error-Codes_EN.md) | 🇬🇧 BLE Fehlerbeschreibungen in Englisch |
+| [`BLE-Codes_d_erreur_FR.md`](BLE-Codes_d_erreur_FR.md) | 🇫🇷 BLE Fehlerbeschreibungen in Französisch |
+| [`Z-01 - Add-Battery-SoC-Sensor.md`](Z-01%20-%20Add-Battery-SoC-Sensor.md) | 🇬🇧 How-to: add a battery SoC sensor |
 
-**Hier starten:** Die Setup-Anleitung in deiner Sprache vollständig lesen, bevor du beginnst.
+**Wo starten:** Die Setup-Anleitung in deiner Sprache vollständig lesen, bevor du beginnst.
 
 ---
 
