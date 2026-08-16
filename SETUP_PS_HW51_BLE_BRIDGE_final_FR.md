@@ -383,7 +383,7 @@ Il contient le fichier YAML prêt à l'emploi ainsi qu'une explication de la log
 - **Wi-Fi hors service / pas de basculement :** pour un basculement sur des **sous-réseaux distincts**, assurez-vous d'utiliser le **DHCP** (section 6). Remarque : le serveur MQTT doit être accessible depuis le réseau de secours ; sinon, l'ESP est connecté en Wi-Fi, mais Home Assistant est inaccessible.
 - **Généralement :** le journal Web est le premier endroit à consulter ; il indique en temps réel le blocage (Wi-Fi, MQTT ou BLE). De plus, la plupart des « erreurs » se résolvent en relisant la section correspondante. ;-)
 
-Liste des codes d'erreur pour la connexion BLE : [BLE-Error-Codes_EN.md](BLE-Error-Codes_EN.md)
+Liste des codes d'erreur pour la connexion BLE : [BLE-Codes_d_erreur_FR.md](BLE-Codes_d_erreur_FR.md)
 
 ### 13. Contexte / architecture (facultatif)
 
