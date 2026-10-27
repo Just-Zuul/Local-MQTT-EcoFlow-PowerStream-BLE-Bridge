@@ -139,3 +139,7 @@ Dieses Projekt wäre ohne die grundlegende Reverse-Engineering-Arbeit von **Roma
 ## Community
 
 Fragen, Feedback und Ergebnisse → **[gerne in den Discussionen](https://github.com/Just-Zuul/Local-MQTT-EcoFlow-PowerStream-BLE-Bridge/discussions)**
+
+
+## Lizenz
+© Just-Zuul 05/2026 - Nur für private Nutzung freigegeben. Siehe [LICENSE](LICENSE) für Details.
