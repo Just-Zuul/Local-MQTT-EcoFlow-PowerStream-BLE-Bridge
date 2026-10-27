@@ -135,4 +135,8 @@ Ce projet n’aurait pas été possible sans le travail de rétro-ingénierie no
 
 ## Communauté
 
-Questions, commentaires et résultats → **[N'hésitez pas à utiliser les discussions.](https://github.com/Just-Zuul/Local-MQTT-EcoFlow-PowerStream-BLE-Bridge/discussions)**
+Questions, commentaires et résultats → **[N'hésitez pas à utiliser les discussions.](https://github.com/Just-Zuul/Local-MQTT-EcoFlow-PowerStream-BLE-Bridge/discussions)**
+
+
+## License
+© Just-Zuul 05/2026 - Private use only. See [LICENSE](LICENSE) for details.
