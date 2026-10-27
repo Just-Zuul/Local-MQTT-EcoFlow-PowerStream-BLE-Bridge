@@ -140,3 +140,7 @@ This project would not have been possible without the groundbreaking reverse-eng
 ## Community
 
 Questions, feedback, and results → **[feel free to use the Discussions](https://github.com/Just-Zuul/Local-MQTT-EcoFlow-PowerStream-BLE-Bridge/discussions)**
+
+
+## License
+© Just-Zuul 05/2026 - Private use only. See [LICENSE](LICENSE) for details.
